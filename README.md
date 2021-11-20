@@ -4,7 +4,7 @@
 2021 Fall Uiowa CS:4330 Final Project
 
 ## Authors
-[Junnan Wang](https://github.com/Junnan-wang) \n
+[Junnan Wang](https://github.com/Junnan-wang) \
 [Hongyu Zeng](https://github.com/Halfacor)
 
 ## Objectives
