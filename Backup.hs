@@ -6,72 +6,59 @@ import TM
 import Util
 
 uTape :: String
-uTape = " !DACLR;:._uvwxyz"
+uTape = " !DACLR;:#_uvwxyz"
 
 -- encode base on its order in the input tape
 -- offset is 1 when encoding state
 class UEncode a where
-  bitenc :: a -> String -- over utape
-
-instance UEncode Bool where
-  bitenc True = "1_"
-  bitenc False = "0_"
+  wzenc :: a -> String -- over utape
 
 --states
 instance UEncode Int where
-  bitenc x =
-    if x <= 0
-      then []
-      else bitenc (x `div` 2) ++ bitenc (x `mod` 2 == 1)
+  wzenc x = "D_" ++ concat (replicate x "A_")
 
 instance UEncode Integer where
-  bitenc x = bitenc (fromIntegral x :: Int)
+  wzenc x = wzenc (fromIntegral x :: Int)
 
 -- tape
+-- https://stackoverflow.com/questions/19545253/haskell-replace-characters-in-string
 instance UEncode Char where
-  bitenc x = bitenc $ ord x
+  wzenc x =
+    let tmp = (wzenc $ ord x)
+     in map (\c -> if c == 'A' then 'C' else c) tmp
 
 instance UEncode Direction where
-  bitenc GoLeft = "1_"
-  bitenc GoRight = "0_"
+  wzenc GoLeft = "L_"
+  wzenc GoRight = "R_"
 
 {- convenience function to encode a, and then append another string.
-    The Char u separates the two strings.
+    The Char u separates thetwo strings.
 -}
-bitencSep :: UEncode a => String -> a -> String -> String
-bitencSep u x rest = bitenc x ++ (u ++ rest)
+wzencSep :: UEncode a => String -> a -> String -> String
+wzencSep u x rest = wzenc x ++ u ++ rest
 
 colon :: UEncode a => a -> String -> String
-colon = bitencSep ":_"
-
-comma :: UEncode a => a -> String -> String
-comma = bitencSep ","
-
-dot :: UEncode a => a -> String -> String
-dot = bitencSep "."
+colon = wzencSep ":"
 
 pound :: UEncode a => a -> String -> String
-pound = bitencSep "#"
+pound = wzencSep "#"
 
 semiColon :: UEncode a => a -> String -> String
-semiColon = bitencSep ";_"
+semiColon = wzencSep ";"
 
 instance (UEncode state, UEncode tape) => UEncode (Trans state tape) where
-  bitenc (Trans st g d st' g') =
-    dot st $
-      dot g $
-        dot g' $
-          dot d $
-            dot st' ""
+  wzenc (Trans st g d st' g') =
+    wzenc st
+      ++ wzenc g
+      ++ wzenc g'
+      ++ wzenc d
+      ++ wzenc st'
 
 -- https://stackoverflow.com/questions/9220986/is-there-any-haskell-function-to-concatenate-list-with-separator
 listH :: UEncode a => [a] -> String -> String
-listH xs rest = concatMap (\a -> ";_" ++ bitenc a) xs ++ rest
+listH xs rest = concatMap (\a -> ";_" ++ wzenc a) xs ++ rest
 
-listH2 :: UEncode a => [a] -> String -> String
-listH2 xs rest = ""
-
--- assume only 1 final state (add eps )
+-- assume 1 final state
 encodeh ::
   (UEncode input, UEncode state, UEncode tape) =>
   TM input state tape ->
@@ -80,9 +67,8 @@ encodeh ::
 encodeh (TM states inputs tapesyms _ blank leftend trans start final) rest =
   pound leftend $
     pound blank $
-      pound start $
-        (bitenc (head final) ++) $
-          listH trans rest
+      (wzenc (head final) ++) $
+        listH trans rest
 
 encode ::
   (UEncode input, UEncode state, UEncode tape) =>
@@ -96,4 +82,4 @@ inputU ::
   TM input state tape ->
   [input] ->
   String -- over Utape
-inputU tm xs = ""
+inputU tm xs = encodeh tm ""

@@ -1,11 +1,11 @@
 module TMExamples where
 
-import TM
 -- import UniversalTM
 
+-- import Backup
+import TM
 import TheOneTM
 
---import Backup
 -- following suggestion by Junnan in class
 tripletm =
   TM [1 .. 6] "abc" "abc*! " id ' ' '!' trans 1 [6]
