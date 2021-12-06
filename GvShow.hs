@@ -5,12 +5,12 @@ module GvShow where
 class GvShow a where
   gvshow :: a -> String
 
-instance (GvShow a, GvShow b) => GvShow (a,b) where
+instance (GvShow a, GvShow b) => GvShow (a, b) where
   gvshow (a, b) = gvshow a ++ "_" ++ gvshow b
 
 -- print lists out differently for benefit of rendering to graphviz
 instance GvShow a => GvShow [a] where
-  gvshow xs = "l_" ++ foldr (\ a str -> gvshow a ++ "_" ++ str) "e" xs
+  gvshow xs = "l_" ++ foldr (\a str -> gvshow a ++ "_" ++ str) "e" xs
 
 instance GvShow Char where
   gvshow = show
