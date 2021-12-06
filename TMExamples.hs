@@ -4,7 +4,7 @@ module TMExamples where
 
 -- import Backup
 import TM
-import TheOneTM
+-- import TheOneTM
 
 -- following suggestion by Junnan in class
 tripletm =
