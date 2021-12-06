@@ -9,7 +9,7 @@ import TM
 
 -- following suggestion by Junnan in class
 tripletm =
-  TM [1 .. 6] "abc" "abc*! " id ' ' '!' trans 1 [6, 4]
+  TM [1 .. 6] "abc" "abc*! " id ' ' '!' trans 1 [6]
   where
     trans =
       goRight 1 ' ' ' ' 6

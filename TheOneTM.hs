@@ -181,7 +181,7 @@ transition =
     ++ goRight 8 ',' ',' 9
     ++ loopLeft 9 (re "!" tape)
     ++ goRight 9 '!' '!' 10
-    ++ loopRight 10 (re "_y" tape)
+    ++ loopRight 10 (re " y" tape)
     ++ goLeft 10 ' ' ' ' 21
     ++ goLeft 10 'y' '_' 11
     ++ goLeft 11 '0' '0' 12
@@ -190,7 +190,7 @@ transition =
     -- left branch
     ++ loopLeft 12 (re "!" tape)
     ++ goRight 12 '!' '!' 15
-    ++ loopRight 15 (re "_x" tape)
+    ++ loopRight 15 (re " x" tape)
     ++ goLeft 15 'x' '_' 18
     ++ goLeft 15 ' ' ' ' 23
     -- ++ goLeft 18 --> 22             -- not sure
@@ -202,7 +202,7 @@ transition =
     ++ goRight 13 '!' '!' 16
     ++ loopRight 16 (re " x" tape)
     ++ goLeft 16 ' ' ' ' 23
-    ++ goLeft 16 'x' ' ' 19
+    ++ goLeft 16 'x' '_' 19
     -- ++ 19 --> 22                       -- not sure
     ++ goLeft 19 '0' '0' 22
     ++ goLeft 19 '1' '1' 22
@@ -212,7 +212,7 @@ transition =
     ++ goRight 14 '!' '!' 17
     ++ loopRight 17 (re " x" tape)
     ++ goLeft 17 ' ' ' ' 23
-    ++ goLeft 17 'x' ' ' 20
+    ++ goLeft 17 'x' '_' 20
     -- ++ 20 --> 22                         -- not sure
     ++ goLeft 20 '1' '1' 9
     ++ goLeft 20 '.' '.' 22
@@ -222,21 +222,21 @@ transition =
     ++ goLeft 21 'x' '_' 22
     ++ loopRight 22 (re " " tape)
     ++ goLeft 22 ' ' ' ' 23
-    ++ loopLeft1 23 '_' "x"
-    ++ loopLeft1 23 '_' "y"
+    ++ loopLeft1 23 '_' "xy"
     ++ loopLeft 23 (re "xy!" tape)
     ++ goRight 23 '!' '!' 24
     ++ loopRight 24 (re ";" tape)
     ++ goRight 24 ';' ';' 25
-    ++ goRight 25 ';' ';' 24
+    ++ goRight 25 'z' 'z' 24
     ++ goRight 25 '_' 'z' 1
     --compare suceed:
-    ++ goRight 22 '!' '!' 26
+    ++ goRight 21 '!' '!' 26
     ++ loopRight 26 (re ";" tape)
     ++ goRight 26 ';' ';' 27
     ++ goRight 27 'z' 'z' 26
-    ++ loopRight 27 (re "," tape)
-    ++ goRight 27 ',' ',' 28
+    ++ goRight 27 '_' '_' 192
+    ++ loopRight 192 (re "," tape)
+    ++ goRight 192 ',' ',' 28
     ++ loopRight 28 (re "," tape)
     ++ goRight 28 ',' ',' 29
     ++ loopRight1 29 'u' "_"
@@ -246,17 +246,18 @@ transition =
     ++ loopRight 30 (re "_," tape)
     ++ goRight 30 ',' ',' 31
     ++ loopRight1 31 'y' "_"
-    ++ loopRight 31 (re "_," tape)
-    ++ goLeft 31 ',' ',' 32
+    ++ loopRight 31 (re "_;:" tape)
+    ++ goLeft 31 ';' ';' 32
+    ++ goLeft 31 ':' ':' 32
     ++ loopLeft 32 (re "z!" tape)
     ++ loopLeft1 32 '_' "z"
     ++ goRight 32 '!' '!' 33
-    ++ loopRight 33 " "
+    ++ loopRight 33 (re " " tape)
     ++ goLeft 33 ' ' ' ' 34
     ++ loopLeft 34 (re ":" tape)
     ++ goRight 34 ':' ':' 35
     ++ goRight 35 '_' '_' 36
-    ++ loopRight 36 (re "," tape)
+    ++ loopRight 36 (re ",_" tape)
     ++ loopRight1 36 'v' "_"
     ++ goLeft 36 ',' ',' 37
     ++ loopLeft1 37 'x' "v"
@@ -278,13 +279,13 @@ transition =
     ++ loopRight 43 (re " _" tape)
     ++ goRight 43 ' ' ':' 44
     ++ goRight 44 ' ' '_' 45
-    ++ loopLeft 45 (re "!u" tape)
+    ++ loopLeft 45 (re "u" tape)
     ++ goLeft 45 'u' '_' 46
     -- update config - PqSQ
     ++ goRight 46 '1' '1' 47
     ++ goRight 46 '0' '0' 99
     -- top branch
-    ++ loopRight 47 (re "v_" tape)
+    ++ loopRight 47 (re "v " tape)
     ++ goLeft 47 ' ' ',' 56
     ++ goLeft 47 'v' '_' 48
     ++ goRight 48 '0' '0' 49
@@ -301,9 +302,10 @@ transition =
     ++ goRight 51 ' ' '1' 54
     ++ goLeft 54 ' ' '_' 55
     ++ loopLeft 55 (re "!" tape)
+    ++ goRight 55 '!' '!' 47
     ++ loopLeft 56 (re "!" tape)
     ++ goRight 56 '!' '!' 57
-    ++ loopRight 57 (re "y_" tape)
+    ++ loopRight 57 (re "y " tape)
     ++ goLeft 57 'y' '_' 58
     ++ goLeft 57 ' ' ',' 63
     ++ goRight 58 '0' '0' 59
@@ -316,7 +318,7 @@ transition =
     ++ goLeft 62 ' ' '_' 56
     ++ loopLeft 63 (re "!" tape)
     ++ goRight 63 '!' '!' 64
-    ++ loopRight 64 (re "x_" tape)
+    ++ loopRight 64 (re "x " tape)
     ++ goLeft 64 ' ' ',' 72
     ++ goLeft 64 'x' '_' 65
     ++ goRight 65 '0' '0' 66
@@ -353,7 +355,7 @@ transition =
     ++ loopLeft 81 (re "!" tape)
     ++ goRight 81 '!' '!' 82
     ++ loopRight 82 (re "z " tape)
-    ++ goRight 82 ' ' ' ' 90
+    ++ goLeft 82 ' ' ' ' 90
     ++ goLeft 82 'z' '_' 83
     ++ goRight 83 '0' '0' 84
     -- ++ 83 --> 85                                --missing
@@ -371,7 +373,7 @@ transition =
     ++ loopLeft 90 (re "!" tape)
     ++ goRight 90 '!' '!' 91
     ++ loopRight 91 (re "w " tape)
-    ++ goRight 91 ' ' ' ' 164 --next page
+    ++ goLeft 91 ' ' ' ' 164 --next page, done pasting
     ++ goLeft 91 'w' '_' 92
     ++ goRight 92 '0' '0' 93
     -- ++ 92 --> 94                                --missing
@@ -387,8 +389,8 @@ transition =
     ++ goRight 95 ' ' '1' 98
     ++ goLeft 98 ' ' '_' 90
     -- lower branch:
-    ++ loopRight 99 (re "v_" tape)
-    ++ goLeft 99 ' ' ',' 108
+    ++ loopRight 99 (re "v " tape)
+    ++ goLeft 99 ' ' ' ' 108
     ++ goLeft 99 'v' '_' 100
     ++ goRight 100 '0' '0' 101
     -- ++ 100-->102                              --missing
@@ -404,11 +406,12 @@ transition =
     ++ goRight 103 ' ' '1' 106
     ++ goLeft 106 ' ' '_' 107
     ++ loopLeft 107 (re "!" tape)
+    ++ goRight 107 '!' '!' 99
     ++ loopLeft 108 (re "!" tape)
     ++ goRight 108 '!' '!' 109
-    ++ loopRight 109 (re "x_" tape)
+    ++ loopRight 109 (re "x " tape)
     ++ goLeft 109 'x' '_' 110
-    ++ goLeft 109 ' ' ',' 117
+    ++ goLeft 109 ' ' ' ' 117
     ++ goRight 110 '0' '0' 111
     -- ++ 110-->112                              --missing
     ++ goRight 110 '.' '.' 112
@@ -424,7 +427,7 @@ transition =
     ++ goLeft 116 ' ' '_' 108
     ++ loopLeft 117 (re "!" tape)
     ++ goRight 117 '!' '!' 118
-    ++ loopRight 118 (re "u_" tape)
+    ++ loopRight 118 (re "u " tape)
     ++ goLeft 118 ' ' ',' 126
     ++ goLeft 118 'u' '_' 119
     ++ goRight 119 '0' '0' 120
@@ -456,7 +459,7 @@ transition =
     ++ loopLeft 133 (re "!" tape)
     ++ goRight 133 '!' '!' 134
     ++ loopRight 134 (re "z " tape)
-    ++ goRight 134 ' ' ' ' 142
+    ++ goLeft 134 ' ' ',' 142
     ++ goLeft 134 'z' '_' 135
     ++ goRight 135 '0' '0' 136
     -- ++ 135 --> 137                                --missing
@@ -474,7 +477,7 @@ transition =
     ++ loopLeft 142 (re "!" tape)
     ++ goRight 142 '!' '!' 143
     ++ loopRight 143 (re "w " tape)
-    ++ goRight 143 ' ' ' ' 151 --next page
+    ++ goLeft 143 ' ' ' ' 151 --next page
     ++ goLeft 143 'w' '_' 144
     ++ goRight 144 '0' '0' 145
     -- ++ 144 --> 146                                --missing
@@ -495,15 +498,16 @@ transition =
     ++ loopLeft 152 (re "!" tape)
     ++ goRight 152 '!' '!' 153
     ++ loopRight1 153 't' "_"
-    ++ loopRight 153 "_$"
+    ++ loopRight 153 (re "_$" tape)
     ++ goLeft 153 '$' '$' 154
-    ++ loopLeft 154 "!"
+    ++ loopLeft 154 (re "!" tape)
     ++ goRight 154 '!' '!' 155
     ++ loopRight 155 (re "t$" tape)
     ++ goRight 155 '$' '$' 156
     ++ goLeft 155 't' '_' 158
     ++ goRight 158 '0' '0' 157
     ++ goRight 158 '.' '.' 159
+    ++ goRight 158 '1' '1' 161
     ++ loopRight 157 (re " " tape)
     ++ goRight 157 ' ' '0' 191
     ++ goLeft 191 ' ' '_' 154
@@ -519,6 +523,75 @@ transition =
     ++ loopLeft 164 (re "!t" tape)
     ++ loopLeft1 164 '_' "t"
     ++ goRight 164 '!' '!' 1
+    {-
+     ++ goLeft 1 ' ' ' ' 2
+    ++ loopLeft 2 (re "," tape)    -- loop without changing symbols -- loop
+    ++ goLeft 2 ',' ',' 3
+    ++ loopLeft1 3 'y' "_"      -- loop with changing symbols -- loop 1
+    -}
+    -- check final
+    ++ loopLeft 165 (re "," tape)
+    ++ goLeft 165 ',' ',' 166
+    ++ loopLeft 166 (re "," tape)
+    ++ goLeft 166 ',' ',' 167
+    ++ loopLeft 167 (re "," tape)
+    ++ goRight 167 ',' ',' 168
+    ++ loopRight 168 (re "y,_" tape)
+    ++ loopRight1 168 't' "y_"
+    ++ goRight 168 ',' ',' 169
+    ++ loopLeft 169 (re "!" tape)
+    ++ goRight 169 '!' '!' 170
+    ++ loopRight 170 (re "$;:" tape)
+    ++ goRight 170 ':' ':' 171
+    ++ goRight 170 ';' ';' 171 -- reject
+    ++ goRight 170 '$' '$' 172
+    ++ goRight 172 'w' 'w' 170
+    ++ goRight 172 '_' '_' 173
+    ++ loopRight1 173 'u' "_"
+    ++ loopRight 173 (re "_$;:" tape)
+    ++ goLeft 173 '$' '$' 174
+    ++ goLeft 173 ';' ';' 174
+    ++ goLeft 173 ':' ':' 174
+    ++ loopLeft 174 (re "!" tape)
+    ++ goRight 174 '!' '!' 175
+    ++ loopRight 175 (re " t" tape)
+    ++ goLeft 175 't' '_' 176
+    ++ goLeft 175 ' ' ' ' 184
+    ++ goLeft 176 '1' '1' 177
+    ++ goLeft 176 '0' '0' 178
+    ++ loopLeft 177 (re "!" tape)
+    ++ goRight 177 '!' '!' 179
+    ++ loopLeft 178 (re "!" tape)
+    ++ goRight 178 '!' '!' 180
+    ++ loopRight 179 (re " u" tape)
+    ++ goLeft 179 'u' '_' 181
+    ++ goLeft 179 ' ' ' ' 186
+    ++ loopRight 180 (re " u" tape)
+    ++ goLeft 180 'u' '_' 182
+    ++ goLeft 180 ' ' ' ' 186
+    ++ goLeft 181 '1' '1' 174
+    ++ goLeft 181 '0' '0' 183
+    ++ goLeft 182 '1' '1' 183
+    ++ goLeft 182 '0' '0' 174
+    ++ loopRight 183 (re " " tape)
+    ++ goLeft 183 ' ' ' ' 186
+    ++ loopLeft 184 (re "!u" tape)
+    ++ goRight 184 '!' '!' 185 -- accept
+    ++ goLeft 184 'u' '_' 183
+    ++ loopLeft 186 (re "ut!" tape)
+    ++ loopLeft1 186 '_' "ut"
+    ++ goRight 186 '!' '!' 187
+    ++ loopRight 187 (re "$" tape)
+    ++ goRight 187 '$' '$' 188
+    ++ goRight 188 'w' 'w' 187
+    ++ goRight 188 '_' 'w' 189
+    ++ loopRight 189 (re " " tape)
+    ++ goLeft 189 ' ' ' ' 165
 
 utm =
-  TM [1 .. 191] inputSym tape id ' ' '!' transition 1 [185]
+  TM [1 .. 192] inputSym tape id ' ' '!' transition 1 [185]
+
+x =
+  TM [1, 2] "a" "a !" id ' ' '!' t2 1 [2]
+  where
+    t2 = goRight 1 'a' 'a' 2
