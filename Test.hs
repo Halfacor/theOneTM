@@ -23,12 +23,21 @@ test1 = accepts utm ex1 -- return true
 
 test2 = accepts utm ex2 -- return false
 
+
 -- for testing tripletm
-test_tripletm = accepts utm ex -- return true!
+ex = inputU2 tripletm "abc"
+test3 = accepts utm ex                      -- return true!
+test4 = accepts utm (inputU2 tripletm "")   -- true
+test5 = accepts utm (inputU2 tripletm "bc") -- false
+
+
 
 initial = initialConfig utm ex -- initial config for TM tripletm
 
 initial1 = initialConfig utm ex1 -- initial config for TM x
+
+
+
 
 -- debugging tool - ntcs
 nt = newConfigs utm -- take a config and step the list of next configs

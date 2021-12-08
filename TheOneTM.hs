@@ -124,7 +124,7 @@ inputU2 tm xs = encodeh tm (":_:_" ++ dot (leftend tm) (comma (start tm) tmp))
       _ -> commaDot (head xs) ("," ++ concatMap (\x -> "._" ++ bitenc x) (tail xs))
 
 --------------------------------------------------------------------------------
-ex = inputU2 tripletm "abc"
+
 
 --------------------------------------------------------------------------------
 -- remove elements from the list
