@@ -125,7 +125,6 @@ inputU2 tm xs = encodeh tm (":_:_" ++ dot (leftend tm) (comma (start tm) tmp))
 
 --------------------------------------------------------------------------------
 
-
 --------------------------------------------------------------------------------
 -- remove elements from the list
 r :: Eq a => a -> [a] -> [a]
@@ -590,8 +589,3 @@ transition =
 
 utm =
   TM [1 .. 192] inputSym tape id ' ' '!' transition 1 [185]
-
-x =
-  TM [1, 2] "a" "a !" id ' ' '!' t2 1 [2]
-  where
-    t2 = goRight 1 'a' 'a' 2
