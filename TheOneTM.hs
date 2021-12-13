@@ -7,7 +7,7 @@ import TMExamples
 import Util
 
 uTape :: String
-uTape = " !;:#$,._tuvwxyz10"
+uTape = " !;:$,._tuvwxyz10"
 
 -- encode base on its order in the input tape
 -- offset is 1 when encoding state
@@ -57,11 +57,11 @@ dot = bitencPre "._"
 commaDot :: UEncode a => a -> String -> String
 commaDot = bitencPre ",._"
 
-pound :: UEncode a => a -> String -> String
-pound = bitencPre "#"
+-- pound :: UEncode a => a -> String -> String
+-- pound = bitencPre "#"
 
-poundDot :: UEncode a => a -> String -> String
-poundDot = bitencPre "#._"
+-- poundDot :: UEncode a => a -> String -> String
+-- poundDot = bitencPre "#._"
 
 semiColon :: UEncode a => a -> String -> String
 semiColon = bitencPre ";_"
@@ -149,9 +149,9 @@ loopRight1 = loop1 GoRight
 loopLeft1 :: state -> tape -> [tape] -> [Trans state tape]
 loopLeft1 = loop1 GoLeft
 
-tape = ".01$#;,:yutwvxz! _"
+tape = ".01$;,:yutwvxz! _"
 
-inputSym = ".01$;,:yutwvxz#_"
+inputSym = ".01$;,:yutwvxz_"
 
 transition =
   loopRight 1 (re " " tape)
