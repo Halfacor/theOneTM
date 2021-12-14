@@ -45,25 +45,28 @@ ntcsFromStart n input = ntcs n (initialConfig utm input)
 
 -- step1: mark current state q and tape read head S
 -- finished marking:
-config_mark_qS = ntcs 260 initial1 -- at state 6
+config_mark_qS = ntcs 155 initial1 -- at state 6
 
 -- step2_1: mark the first state q and tape symbol for the first transition
-config_mark_trans = ntcs 50 config_mark_qS -- at state 9
--- step2_2: matched
+config_mark_trans = ntcs 127 config_mark_qS -- at state 9
 
-config_matched = ntcs 2600 config_mark_trans -- at state 28
+-- step2_2: matched
+config_matched = ntcs 2602 config_mark_trans -- at state 26
 
 -- step 3: update config
 -- 3_1: mark trans and config
-config_update = ntcs 400 config_matched -- at state 45
--- 3_2: update finished
+config_update = ntcs 384 config_matched -- at state 44
 
-config_finish_update = ntcs 8800 config_update -- at state 152
+-- 3_2: update finished
+config_finish_update = ntcs 11666 config_update -- at state 156
 
 -- step 4: clean up
-config_clean = ntcs 3000 config_finish_update
+config_clean = ntcs 188 config_finish_update
 
--- step 5: compare and reach the final state:
-config_final = ntcs 3390 config_clean -- at state 185 (utm accept state)
+-- step 5: no matching transition, go check final
+config_final = ntcs 2067 config_clean
+
+-- step 6: accepted
+config_end = ntcs 1311 config_final
 
 -- the utm would check for new config again, but when it fails, it is going to the accept branch
