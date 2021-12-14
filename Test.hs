@@ -45,7 +45,7 @@ ntcsFromStart n input = ntcs n (initialConfig utm input)
 
 -- step1: mark current state q and tape read head S
 -- finished marking:
-config_mark_qS = ntcs 155 initial1 -- at state 6
+config_mark_qS = ntcs 155 initial1 -- at state 5
 
 -- step2_1: mark the first state q and tape symbol for the first transition
 config_mark_trans = ntcs 127 config_mark_qS -- at state 9
