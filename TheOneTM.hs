@@ -286,6 +286,7 @@ transition =
     ++ goRight 46 '1' '1' 47
     ++ goRight 46 '0' '0' 99
     -- top branch: go left
+    -- copy v, which should be the new left part
     ++ loopRight 47 (re "v " tape)
     ++ goLeft 47 ' ' ',' 56
     ++ goLeft 47 'v' '_' 48
@@ -305,6 +306,7 @@ transition =
     ++ goRight 55 '!' '!' 47
     ++ loopLeft 56 (re "!" tape)
     ++ goRight 56 '!' '!' 57
+    -- copy y, which should be the new state of the new config
     ++ loopRight 57 (re "y " tape)
     ++ goLeft 57 'y' '_' 58
     ++ goLeft 57 ' ' ',' 63
@@ -318,6 +320,7 @@ transition =
     ++ goLeft 62 ' ' '_' 56
     ++ loopLeft 63 (re "!" tape)
     ++ goRight 63 '!' '!' 64
+    -- copy x, which should be the new symbol being scanned
     ++ loopRight 64 (re "x " tape)
     ++ goLeft 64 ' ' ',' 72
     ++ goLeft 64 'x' '_' 65
@@ -335,6 +338,7 @@ transition =
     ++ goLeft 71 ' ' '_' 63
     ++ loopLeft 72 (re "!" tape)
     ++ goRight 72 '!' '!' 73
+    -- copy uzw, which should be the right part of the new config
     ++ loopRight 73 (re "u " tape)
     ++ goLeft 73 'u' '_' 74
     ++ goLeft 73 ' ' ' ' 81
@@ -385,6 +389,7 @@ transition =
     ++ goRight 95 ' ' '1' 98
     ++ goLeft 98 ' ' '_' 90
     -- lower branch: goRight
+    -- copy vxu, which should be the left part of the new config
     ++ loopRight 99 (re "v " tape)
     ++ goLeft 99 ' ' ' ' 108
     ++ goLeft 99 'v' '_' 100
@@ -437,6 +442,7 @@ transition =
     ++ goRight 122 ' ' '1' 125
     ++ goLeft 125 ' ' '_' 117
     ++ loopLeft 126 (re "!" tape)
+    -- copy y, which is the new state
     ++ goRight 126 '!' '!' 127
     ++ loopRight 127 (re "y " tape)
     ++ goLeft 127 'y' '_' 128
@@ -451,6 +457,7 @@ transition =
     ++ goLeft 132 ' ' '_' 126
     ++ loopLeft 133 (re "!" tape)
     ++ goRight 133 '!' '!' 134
+    -- copy z, which is the new symbol being scanned
     ++ loopRight 134 (re "z " tape)
     ++ goLeft 134 ' ' ',' 142
     ++ goLeft 134 'z' '_' 135
@@ -468,6 +475,7 @@ transition =
     ++ goLeft 141 ' ' '_' 133
     ++ loopLeft 142 (re "!" tape)
     ++ goRight 142 '!' '!' 143
+    -- copy w, which is the right part of the new config
     ++ loopRight 143 (re "w " tape)
     ++ goLeft 143 ' ' ' ' 151 --next page
     ++ goLeft 143 'w' '_' 144
@@ -484,6 +492,7 @@ transition =
     ++ goRight 147 ' ' '1' 150
     ++ goLeft 150 ' ' '_' 142
     -- new page:
+    -- if moving right and needs to append blank
     ++ goLeft 151 ',' ',' 152
     ++ goRight 151 '_' '_' 163
     ++ loopLeft 152 (re "!" tape)
@@ -511,10 +520,12 @@ transition =
     ++ loopRight 156 (re " " tape)
     ++ goLeft 156 ' ' ' ' 164
     ++ goLeft 163 ' ' ' ' 164
+    -- remove mark t used by blank symbol copying
     ++ loopLeft 164 (re "!t" tape)
     ++ loopLeft1 164 '_' "t"
     ++ goRight 164 '!' '!' 1
     -- check final
+    -- mark current state with t
     ++ loopLeft 165 (re "," tape)
     ++ goLeft 165 ',' ',' 166
     ++ loopLeft 166 (re "," tape)
@@ -526,6 +537,7 @@ transition =
     ++ goRight 168 ',' ',' 169
     ++ loopLeft 169 (re "!" tape)
     ++ goRight 169 '!' '!' 170
+    -- find next unexplored final state, mark with u
     ++ loopRight 170 (re "$;:" tape)
     ++ goRight 170 ':' ':' 171
     ++ goRight 170 ';' ';' 171 -- reject
@@ -537,6 +549,7 @@ transition =
     ++ goLeft 173 '$' '$' 174
     ++ goLeft 173 ';' ';' 174
     ++ goLeft 173 ':' ':' 174
+    -- compare to see if current state matches this final state
     ++ loopLeft 174 (re "!" tape)
     ++ goRight 174 '!' '!' 175
     ++ loopRight 175 (re " t" tape)
@@ -563,9 +576,11 @@ transition =
     ++ loopLeft 184 (re "!u" tape)
     ++ goRight 184 '!' '!' 185 -- accept
     ++ goLeft 184 'u' '_' 183
+    -- unmark u, t
     ++ loopLeft 186 (re "ut!" tape)
     ++ loopLeft1 186 '_' "ut"
     ++ goRight 186 '!' '!' 187
+    -- mark this unmatched final state with w
     ++ loopRight 187 (re "$" tape)
     ++ goRight 187 '$' '$' 188
     ++ goRight 188 'w' 'w' 187
