@@ -4,7 +4,6 @@ import TM
 import TMExamples
 import TheOneTM
 
--- TM tested here:
 -- 1) x         - defined by us in TheOneTM.hs
 -- 2) tripletm  - defined in the TMExamples
 
@@ -19,37 +18,30 @@ ex1 = inputU2 x "a"
 
 ex2 = inputU2 x "b"
 
-test1 = accepts utm ex1 -- return true
-
-test2 = accepts utm ex2 -- return false
+initial1 = initialConfig utm ex1 -- initial config for TM x
 
 -- for testing tripletm
 ex = inputU2 tripletm "abc"
 
-test3 = accepts utm ex -- return true!
-
-test4 = accepts utm (inputU2 tripletm "") -- true
-
-test5 = accepts utm (inputU2 tripletm "bc") -- false
-
 initial = initialConfig utm ex -- initial config for TM tripletm
-
-initial1 = initialConfig utm ex1 -- initial config for TM x
 
 -- debugging tool - ntcs
 nt = newConfigs utm -- take a config and step the list of next configs
--- obtain the next config (get rid of the bracket since we are having deterministic TM input)
+-- obtain the next config (get rid of the bracket since we are having deterministic UTM)
 
 ntc :: Config Integer Char -> Config Integer Char
-ntc config = nt config !! 0
+ntc config = head (nt config)
 
 -- debugging fxn:
 -- input: number of steps as n; the config to begin with
+--note: the iterate function actually can run to the end:  iterate ntc config
+--for example: iterate ntc initial1  -- a little weird though...
 ntcs :: Int -> Config Integer Char -> Config Integer Char
 ntcs n config = last $ take (n + 1) (iterate ntc config) -- the first element after iterate function is the current config
 
---note: the iterate function actually can run to the end:  iterate ntc config
---for example: iterate ntc initial1  -- a little weird though...
+-- input: number of steps and the input tape
+ntcsFromStart :: Int -> [Char] -> Config Integer Char
+ntcsFromStart n input = ntcs n (initialConfig utm input)
 
 -- step1: mark current state q and tape read head S
 -- finished marking:
