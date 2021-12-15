@@ -24,6 +24,11 @@ tripletm =
         ++ loopLeft 5 "abc*"
         ++ goRight 5 '!' '!' 1
 
+x =
+  TM [1, 2] "a" "a !" id ' ' '!' t2 1 [2]
+  where
+    t2 = goRight 1 'a' 'a' 2
+
 trans2 =
   goRight 1 ' ' ' ' 6
     ++ loopRight 1 "*"

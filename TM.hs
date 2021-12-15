@@ -57,14 +57,14 @@ initialConfig tm xs =
 accepts :: (Eq state, Eq tape) => TM input state tape -> [input] -> Bool
 accepts tm xs = acceptsh tm [initialConfig tm xs]
 
-simulate :: (Eq state, Eq tape) => TM input state tape -> [Config state tape] -> Int -> [Config state tape]
-simulate tm cs 0 = cs
-simulate tm cs n = case length (cs) of
-  1 -> simulate tm (concatMap (newConfigs tm) cs) (n - 1)
-  _ -> cs
+-- simulate :: (Eq state, Eq tape) => TM input state tape -> [Config state tape] -> Int -> [Config state tape]
+-- simulate tm cs 0 = cs
+-- simulate tm cs n = case length (cs) of
+--   1 -> simulate tm (concatMap (newConfigs tm) cs) (n - 1)
+--   _ -> cs
 
-simulateFromStart :: (Eq state, Eq tape) => TM input state tape -> [input] -> Int -> [Config state tape]
-simulateFromStart tm xs = simulate tm [initialConfig tm xs]
+-- simulateFromStart :: (Eq state, Eq tape) => TM input state tape -> [input] -> Int -> [Config state tape]
+-- simulateFromStart tm xs = simulate tm [initialConfig tm xs]
 
 epsEdge :: state -> state -> state -> [tape] -> [Trans state tape]
 epsEdge p intermediate q ts =
