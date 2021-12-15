@@ -39,7 +39,7 @@ ntc config = head (nt config)
 ntcs :: Int -> Config Integer Char -> Config Integer Char
 ntcs n config = last $ take (n + 1) (iterate ntc config) -- the first element after iterate function is the current config
 
--- input: number of steps and the input tape
+-- input: number of steps and the input tape to the utm
 ntcsFromStart :: Int -> [Char] -> Config Integer Char
 ntcsFromStart n input = ntcs n (initialConfig utm input)
 
